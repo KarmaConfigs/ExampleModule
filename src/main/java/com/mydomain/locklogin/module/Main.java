@@ -8,6 +8,16 @@ import eu.locklogin.api.module.plugin.api.event.util.EventListener;
 
 public class Main extends PluginModule {
 
+    private static Main instance;
+
+    public Main() {
+        instance = this;
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
     @Override
     public void enable() {
         getConsole().sendMessage("&aExample module, just enabled!");
