@@ -1,0 +1,12 @@
+name: ${project.name}
+version: ${project.version}
+description:
+  - "This is the module"
+  - "description, it can be a string"
+  - "an array or even a list"
+load: PREPLUGIN
+author: KarmaDev
+update_url: "https://mydomain.com/modulename/something.txt"
+loader_bukkit: com.mydomain.locklogin.module.Main
+loader_bungee: com.mydomain.locklogin.module.Main
+loader_velocity: com.mydomain.locklogin.module.Main

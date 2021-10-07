@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ml.karmaconfigs</groupId>
+    <artifactId>ExampleModule</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <!--You can use any number here ( must have jdk ). I recommend to use 8-->
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <build>
+        <!--This will build ExampleModule.jar, instead of ExampleModule_x.jar-->
+        <finalName>ExampleModule</finalName>
+        <!--I won't explain what this does-->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>ml.karmaconfigs.api</pattern>
+                            <shadedPattern>eu.locklogin.shaded.karmaapi</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <!--This will help to parse variables as ${project.version} when building in files located at src/main/resources-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <repositories>
+        <!--LockLoginAPI snapshots repository-->
+        <repository>
+            <id>sh1-sonatype-snapshots</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <!--KarmaAPI repository is located at sonatype, which is usually
+        internally integrated in most of the IDEs-->
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.locklogin</groupId>
+            <artifactId>LockLogin-API</artifactId>
+            <version>1.13.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ml.karmaconfigs</groupId>
+            <artifactId>KarmaAPI-Bundle</artifactId>
+            <version>1.3.1-SNAPSHOT</version>
+            <scope>provided</scope>
+            <!--We shaded this to use LockLogin's KarmaAPI so we don't have to compile with the module-->
+        </dependency>
+    </dependencies>
+</project>
